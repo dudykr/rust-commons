@@ -53,18 +53,20 @@ pub trait Value<T> {
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use super::*;
     // We test if it works without macro.
 
     struct OkInjector {
-        test: Test,
+        test: Arc<Test>,
     }
 
     struct Test {}
 
-    impl Value<Test> for OkInjector {
-        fn value(&self) -> Test {
-            self.test
+    impl Value<Arc<Test>> for OkInjector {
+        fn value(&self) -> Arc<Test> {
+            self.test.clone()
         }
     }
 
@@ -75,7 +77,7 @@ mod tests {
             T: Injectable<'a>,
         {
             let injected = self.provide();
-            t.inject(self, injected)
+            t.inject(injected)
         }
     }
 
@@ -84,15 +86,18 @@ mod tests {
 
     impl<'a> Injectable<'a> for handler {
         type Output = &'a dyn Fn();
-        type Injected = (Test,);
+        type Injected = (Arc<Test>,);
 
         fn inject(self, injected: Self::Injected) -> Self::Output {
             &|| {}
         }
     }
 
+    #[test]
     fn test() {
-        let mut injector = OkInjector { test: Test {} };
+        let injector = OkInjector {
+            test: Arc::new(Test {}),
+        };
         let my_handler = injector.inject(handler);
         my_handler();
     }
