@@ -11,7 +11,16 @@ pub fn inject(
     _: proc_macro::TokenStream,
     fn_item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    todo!()
+    let input =
+        syn::parse(fn_item).expect("#[inject] Currently only supports a standalone function");
+    let items = self::inject::expand(input);
+
+    let mut q = q!({});
+    for item in &items {
+        q.push_tokens(&item)
+    }
+
+    q.into()
 }
 
 /// Creates an injector.
