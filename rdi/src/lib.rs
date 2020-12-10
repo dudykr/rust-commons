@@ -7,7 +7,7 @@
 //! - injection of variable into other method in injector.
 //! - returning references while defining injection rules.
 //!
-//! **Note**: It works by cloing all components, so you have to return `Arc<T>`
+//! **Note**: It works by cloning all components, so you have to return `Arc<T>`
 //! or `Rc<T>`. This is because the injector cannot know how much time it will
 //! be injected.
 //!
