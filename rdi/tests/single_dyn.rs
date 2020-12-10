@@ -1,12 +1,13 @@
 use rdi::inject;
 use rdi::injector;
+use std::sync::Arc;
 
 pub trait Db {
     fn call(&self);
 }
 
 #[inject]
-pub fn handler(#[inject] db: &dyn Db) {
+pub fn handler(#[inject] db: Arc<dyn Db>) {
     db.call()
 }
 
@@ -26,8 +27,8 @@ impl Db for OkDb {
 
 #[injector]
 fn ok_injector() {
-    fn db() -> &dyn Db {
-        OkDb {}
+    fn db() -> Arc<dyn Db> {
+        Arc::new(OkDb {})
     }
 }
 
@@ -42,8 +43,8 @@ fn test_panic() {
 
 #[injector]
 fn panic_injector() {
-    fn db() -> &dyn Db {
-        PanicDb {}
+    fn db() -> Arc<dyn Db> {
+        Arc::new(PanicDb {})
     }
 }
 
