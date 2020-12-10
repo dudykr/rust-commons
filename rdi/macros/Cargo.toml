@@ -1,0 +1,14 @@
+[package]
+authors = ["강동윤 <kdy1@dudy.kr>"]
+edition = "2018"
+name = "rdi_macros"
+version = "0.1.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+pmutil = "0.5.3"
+proc-macro2 = "1"
+quote = "1"
+syn = {version = "1", features = ["parsing", "full"]}

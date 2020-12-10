@@ -1,3 +1,6 @@
+use rdi::inject;
+use rdi::injector;
+
 pub trait Db {
     fn call(&self);
 }
