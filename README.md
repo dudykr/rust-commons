@@ -11,6 +11,10 @@ Document for each crates lives at `docs.rs`
 
 Dependency injection for the rust programming language.
 
+# Contributing
+
+Note: This repository uses nightly rust to use some unstable options of rustc.
+
 # License
 
 Apache 2.0
