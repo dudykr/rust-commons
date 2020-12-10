@@ -88,7 +88,7 @@ mod tests {
         type Output = &'a dyn Fn();
         type Injected = (Arc<Test>,);
 
-        fn inject(self, injected: Self::Injected) -> Self::Output {
+        fn inject(self, _injected: Self::Injected) -> Self::Output {
             &|| {}
         }
     }
