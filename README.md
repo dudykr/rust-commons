@@ -5,7 +5,7 @@ This is a mono repo to ease maintenance.
 
 Document for each crates lives at `docs.rs`
 
-# Libraies
+# Libraries
 
 ## [rdi](https://docs.rs/rdi)
 
