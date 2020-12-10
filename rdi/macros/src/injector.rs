@@ -84,7 +84,7 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
         items.push(
             q!(
                 Vars {
-                    mame: &field.ident,
+                    name: &field.ident,
                     ty: &field.ty,
                     injector_struct_ident: &injector_struct_ident
                 },
