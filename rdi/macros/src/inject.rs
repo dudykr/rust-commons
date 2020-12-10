@@ -101,7 +101,7 @@ pub fn expand(f: ItemFn) -> Vec<Item> {
                 },
                 {
                     impl<'a> rdi::Injectable<'a> for handler {
-                        type Output = &'a Fn(extra_type) -> ret_ty;
+                        type Output = &'a dyn Fn(extra_type) -> ret_ty;
                         type Injected = injected_type;
 
                         fn inject(self, injected_pat: Self::Injected) -> Self::Output {
