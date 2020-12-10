@@ -1,6 +1,52 @@
+//!Dependency injection for the rust.
+//!
+//! This is currently in state of proof-of-concept. It currently does not
+//! support
+//!
+//! - providing variables to the injector
+//! - injection of variable into other method in injector.
+//! - returning references while defining injection rules.
+//!
+//! **Note**: It works by cloing all components, so you have to return `Arc<T>`
+//! or `Rc<T>`. This is because the injector cannot know how much time it will
+//! be injected.
+//!
+//! # Usage
+//!
+//!```rust
+//! fn main() {
+//!     let injector = ok_injector();
+//!     let my_handler = injector.inject(handler);
+//!
+//!     my_handler()
+//! }
+//!
+//! pub trait Db {
+//!     fn call(&self);
+//! }
+//!
+//! #[inject]
+//! pub fn handler(#[inject] db: Arc<dyn Db>) {
+//!     db.call()
+//! }
+//!
+//! struct OkDb {}
+//!
+//! impl Db for OkDb {
+//!     fn call(&self) {}
+//! }
+//!
+//! #[injector]
+//! fn ok_injector() {
+//!     fn db() -> Arc<dyn Db> {
+//!         Arc::new(OkDb {})
+//!     }
+//! }
+//! ```
+
 pub use rdi_macros::{inject, injector};
 
-/// **Do not implement this manually**
+/// **Do not implement this manually**. Use `#[inject]` instead.
 pub trait Injectable<'a> {
     type Output: 'a;
     type Injected: 'a;

@@ -7,7 +7,6 @@ use syn::punctuated::Punctuated;
 use syn::spanned::Spanned;
 use syn::Attribute;
 use syn::Block;
-use syn::ExprStruct;
 use syn::Field;
 use syn::FieldValue;
 use syn::Fields;
@@ -105,7 +104,7 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
                 {
                     impl rdi::Value<ty> for injector_struct_ident {
                         fn value(&self) -> ty {
-                            self.name
+                            self.name.clone()
                         }
                     }
                 }
