@@ -1,10 +1,12 @@
 [package]
 authors = ["강동윤 <kdy1@dudy.kr>"]
+description = "Simple dependency injection library for rust."
 edition = "2018"
+keywords = ["dependency", "injection"]
+license = "Apache-2.0"
 name = "rdi"
+repository = "https://github.com/dudykr/rust-commons.git"
 version = "0.1.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rdi_macros = {version = "0.1", path = "./macros"}

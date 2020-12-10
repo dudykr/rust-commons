@@ -1,7 +1,11 @@
 [package]
 authors = ["강동윤 <kdy1@dudy.kr>"]
+description = "Macros for rdi, simple dependency injection library for rust."
 edition = "2018"
+keywords = ["dependency", "injection", "macros"]
+license = "Apache-2.0"
 name = "rdi_macros"
+repository = "https://github.com/dudykr/rust-commons.git"
 version = "0.1.0"
 
 [lib]
