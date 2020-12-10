@@ -175,7 +175,7 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
                             Self: rdi::Provider<T::Injected>,
                             T: rdi::Injectable<'a>,
                         {
-                            let injected = self.provide();
+                            let injected = rdi::Provider::provide(self);
                             t.inject(injected)
                         }
                     }
