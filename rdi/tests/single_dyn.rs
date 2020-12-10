@@ -14,9 +14,9 @@ pub fn handler(#[inject] db: Arc<dyn Db>) {
 #[test]
 fn test_ok() {
     let injector = ok_injector();
-    let handler = injector.inject(handler);
+    let my_handler = injector.inject(handler);
 
-    handler()
+    my_handler()
 }
 
 struct OkDb {}
@@ -36,9 +36,9 @@ fn ok_injector() {
 #[should_panic(expected = "Success")]
 fn test_panic() {
     let injector = panic_injector();
-    let handler = injector.inject(handler);
+    let my_handler = injector.inject(handler);
 
-    handler()
+    my_handler()
 }
 
 #[injector]

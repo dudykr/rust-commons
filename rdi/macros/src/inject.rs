@@ -103,11 +103,11 @@ pub fn expand(f: ItemFn) -> Vec<Item> {
                 },
                 {
                     impl<'a> rdi::Injectable<'a> for handler {
-                        type Output = &'a dyn Fn(extra_type) -> ret_ty;
+                        type Output = Box<dyn Fn(extra_type) -> ret_ty>;
                         type Injected = injected_type;
 
                         fn inject(self, injected_pat: Self::Injected) -> Self::Output {
-                            move |extra_input_pat| body
+                            Box::new(move |extra_input_pat| body)
                         }
                     }
                 }

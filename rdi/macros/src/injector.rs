@@ -7,7 +7,9 @@ use syn::punctuated::Punctuated;
 use syn::spanned::Spanned;
 use syn::Attribute;
 use syn::Block;
+use syn::ExprStruct;
 use syn::Field;
+use syn::FieldValue;
 use syn::Fields;
 use syn::FieldsNamed;
 use syn::Generics;
@@ -29,6 +31,7 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
     let mut items = vec![];
     let mut fields_for_struct = Punctuated::<Field, Token![,]>::default();
     let mut injector_body: Vec<Stmt> = vec![];
+    let mut fields_for_init = Punctuated::<FieldValue, Token![,]>::default();
 
     for stmt in &injector.block.stmts {
         match stmt {
@@ -65,12 +68,23 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
                 injector_body.push(
                     q!(
                         Vars {
-                            var_name,
+                            var_name: &var_name,
                             mtd_name: &provider.sig.ident
                         },
                         {
                             let var_name = mtd_name();
                         }
+                    )
+                    .parse(),
+                );
+
+                fields_for_init.push(
+                    q!(
+                        Vars {
+                            var_name,
+                            mtd_name: &provider.sig.ident
+                        },
+                        { mtd_name: var_name }
                     )
                     .parse(),
                 );
@@ -128,10 +142,11 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
         injector_body.push(
             q!(
                 Vars {
-                    injector_struct_ident: &injector_struct_ident
+                    injector_struct_ident: &injector_struct_ident,
+                    fields_for_init,
                 },
                 {
-                    return injector_struct_ident {};
+                    return injector_struct_ident { fields_for_init };
                 }
             )
             .parse(),
@@ -163,6 +178,7 @@ pub fn expand(injector: ItemFn) -> Vec<Item> {
     }
 
     {
+        // Make `inject`.
         items.push(
             q!(
                 Vars {
