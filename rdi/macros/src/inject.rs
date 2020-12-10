@@ -1,7 +1,6 @@
 use pmutil::q;
 use pmutil::SpanExt;
 use proc_macro2::Span;
-use proc_macro2::TokenStream;
 use syn::punctuated::Punctuated;
 use syn::Attribute;
 use syn::FnArg;
@@ -50,6 +49,9 @@ pub fn expand(f: ItemFn) -> Vec<Item> {
 
         if !injected_type_elems.trailing_punct() {
             injected_type_elems.push_punct(Span::call_site().as_token());
+        }
+        if !injected_pat_elems.trailing_punct() {
+            injected_pat_elems.push_punct(Span::call_site().as_token());
         }
 
         let injected_pat = Pat::Tuple(PatTuple {
